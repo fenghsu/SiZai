@@ -145,17 +145,16 @@ import { defineComponent } from "vue";
 import { GoogleMap, Marker } from 
 "vue3-google-map";
 import axios from 'axios';
-import bootstrap from ' bootstrap'
+// import bootstrap from ' bootstrap'
 
-const modal = document.querySelector('#modal')
-const myModal = new bootstrap.Modal(modal)
+// const modal = document.querySelector('#modal')
+// const myModal = new bootstrap.Modal(modal)
 
 export default defineComponent({
   data(){
     return{
       schedule:'',
       text:'hello!!!',
-      Modal:''
     }
   },
   methods:{
@@ -174,7 +173,6 @@ export default defineComponent({
  },
   mounted() {
     this.getschedule();
-    console.log(bootstrap)
   },
   components: { GoogleMap, Marker },
   setup() {
