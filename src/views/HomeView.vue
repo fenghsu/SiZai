@@ -158,30 +158,25 @@ export default defineComponent({
     }
   },
   methods:{
-    getschedule(){
-    axios.get('https://private-82d07-migao.apiary-mock.com/questions')
-    .then((res) => {
-      this.schedule = res.data.schedule
-      console.log(res.data.schedule)
-    })
-    .catch(( err) => {
-      consoel.log(err)
-    })},
     openModal(){
       myModal.show();
     }
  },
   mounted() {
-    this.getschedule();
+    const url = import.meta.env.VITE_APP_PATH
+    this.$http.get(url)
+    .then((res) => {
+      this.schedule = res.data.schedule
+      //console.log(res.data.schedule)
+    })
+    .catch(( err) => {
+      consoel.log(err)
+    })
   },
   components: { GoogleMap, Marker },
   setup() {
     const center = { lat: 40.689247, lng: -74.044502 };
     return { center };
   },
-});
-
-
-
-  
+}); 
 </script>
