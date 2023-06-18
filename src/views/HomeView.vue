@@ -145,10 +145,6 @@ import { defineComponent } from "vue";
 import { GoogleMap, Marker } from 
 "vue3-google-map";
 import axios from 'axios';
-// import bootstrap from ' bootstrap'
-
-// const modal = document.querySelector('#modal')
-// const myModal = new bootstrap.Modal(modal)
 
 export default defineComponent({
   data(){
