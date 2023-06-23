@@ -68,12 +68,12 @@
       <div class="container">
       <div class="title">阿祿去哪</div>
       <div class="place-list col-sm-8 offset-sm-2">
-        <div class="place-item row" v-for="item in schedule" v-bind:key="item.time">
+        <div class="place-item row" v-for="item in schedule" v-bind:key="item.time" @click="openModal()">
           <div class="col-sm-2">
             <h4>{{item.date}}</h4>
           </div>
           <div class="col-sm-2">
-            <img v-bind:src="item.imgUrl" class="container-fluid" alt="">
+            <img v-bind:src="item.imgUrl" class="container-fluid" alt="" >
           </div>
           <div class="col-sm-8">
             <p>地點：{{item.place}} / {{item.addr}}<br>
@@ -84,17 +84,7 @@
       </div>
     </div>
 
-    <!-- <GoogleMap api-key="AIzaSyCNcTgQjki9BtrO6Elvji4sD9aXnM_v7A4" style="width: 100%; height: 500px" :center="center" :zoom="15">
-    <Marker :options="{ position: center }" />
-  </GoogleMap> -->  
-
-    <!-- Map Card -->
-  <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" id="modalBtn" @click="openModal()">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
+    <!--Map Card -->
 <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -103,7 +93,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+          <GoogleMap api-key="AIzaSyCNcTgQjki9BtrO6Elvji4sD9aXnM_v7A4" style="width: 100%; height: 500px" :center="center" :zoom="15">
+    <Marker :options="{ position: center }" />
+        </GoogleMap>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -114,7 +106,6 @@
 </div>
 </div>
 </template>
-
 
 <style scope>
 .banner-btn {
@@ -142,25 +133,20 @@
 
 <script>
 import { defineComponent } from "vue";
-import { GoogleMap, Marker } from 
-"vue3-google-map";
-import "bootstrap"
-
-
-const modal = document.querySelector('#modal')
-const myModal = new bootstrap.Modal(modal)
-
+import { GoogleMap, Marker } from "vue3-google-map";
+import { Modal }  from "bootstrap"
 
 export default defineComponent({
   data(){
     return{
       schedule:'',
-      text:'hello!!!',
     }
   },
   methods:{
     openModal(){
-      myModal.show();
+    const modal = document.querySelector('#modal') 
+    const myModal = new Modal(modal)
+    myModal.show();
     }
  },
   mounted() {
@@ -168,7 +154,6 @@ export default defineComponent({
     this.$http.get(url)
     .then((res) => {
       this.schedule = res.data.schedule
-      //console.log(res.data.schedule)
     })
     .catch(( err) => {
       consoel.log(err)
@@ -177,6 +162,7 @@ export default defineComponent({
   components: { GoogleMap, Marker },
   setup() {
     const center = { lat: 40.689247, lng: -74.044502 };
+   
     return { center };
   },
 }); 
