@@ -12,13 +12,34 @@
             <br>
             <button class="banner-btn bg-primary">即刻預定</button>
           </div>
-        </div>
+          <div class="col-sm-6">
+            <div class="roundSpace"  data-aos="fade-left">
+            <div class="roundOut">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            </div>
+            <div class="roundIn">
+              <div class="brandName">鴨</div>
+              <div class="brandName">肉</div>
+              <div class="brandName">米</div>
+              <div class="brandName">糕</div>
+            </div>
+            </div>
+          </div> 
+        </div>  
       </div>
     </div>
     <!-- Product Intro -->
     <div id="products" class="bg-secondary section">
       <div class="container">
-        <div class="title text-white border-white">商品介紹</div>
+        <div class="title text-white border-white" data-aos="fade-up">商品介紹</div>
           <div class="row row-cols-1 row-cols-md-4 g-4">
             <div class="col">
               <div class="card h-100 p-2">
@@ -122,6 +143,84 @@
 .section{
   padding: 2rem 0;
 }
+.roundSpace{
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+}
+.roundOut{
+            width: 100%;
+            padding-top: 100%;
+            background-color: white;
+            border-radius: 50%;     
+            display: flex;    
+            justify-content: center;
+            align-items:flex-end;
+            animation: rotate 24s infinite linear;
+}
+.roundOut div{
+            width: 30px;
+            padding-top: 100%;
+            background-color: rgb(204, 5, 5);
+            position: absolute;
+            border-radius: 8%;
+}
+.roundOut div:nth-child(1){
+            transform: rotate(0deg);
+}
+.roundOut div:nth-child(2){
+            transform: rotate(20deg);
+}
+.roundOut div:nth-child(3){
+            transform: rotate(40deg);
+}
+.roundOut div:nth-child(4){
+            transform: rotate(60deg);
+}
+.roundOut div:nth-child(5){
+            transform: rotate(80deg);
+}
+.roundOut div:nth-child(6){
+            transform: rotate(100deg);
+}
+.roundOut div:nth-child(7){
+            transform: rotate(120deg);
+}
+.roundOut div:nth-child(8){
+            transform: rotate(140deg);
+}
+.roundOut div:nth-child(9){
+            transform: rotate(160deg);
+}
+.roundIn{
+            position: absolute;
+            background-color: white;
+            width: 90%;
+            height: 90%;
+            border: 25px solid rgb(204, 5, 5);
+            border-radius: 50%;
+            display: flex;
+            flex-wrap:  wrap;
+            justify-content: center;
+            align-content: center;
+}
+@keyframes rotate {
+            0%{
+                transform: rotate(0deg);
+            }
+            100%{
+                transform: rotate(360deg);
+            }
+}
+.brandName{
+  width: 40%;
+  height: 40%;
+  text-align: center;
+  font-size: 7rem;
+  color: rgb(204, 5, 5) ;
+  font-weight: 800;
+}
 .card-body{
   text-align: center;
 }
@@ -135,6 +234,8 @@
 import { defineComponent } from "vue";
 import { GoogleMap, Marker } from "vue3-google-map";
 import { Modal }  from "bootstrap"
+import AOS from "aos"
+import "aos/dist/aos.css"
 
 export default defineComponent({
   data(){
@@ -157,6 +258,10 @@ export default defineComponent({
     })
     .catch(( err) => {
       consoel.log(err)
+    });
+    AOS.init({
+      delay:2000,
+      duration:1200
     })
   },
   components: { GoogleMap, Marker },
