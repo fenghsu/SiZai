@@ -32,7 +32,7 @@
 <br>
 <br>
 <!-- Footer -->
-<footer id="footer" class="bg-primary">
+<footer id="footer" class="bg-secondary">
   <div class="container">
   <div class="row">
     <div class="col-sm-6 p-4 d-flex justify-content-center">

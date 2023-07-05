@@ -115,7 +115,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-<GMapMap
+<!-- <GMapMap
       :center="center"
       :zoom="7"
       map-type-id="terrain"
@@ -131,7 +131,7 @@
           @click="center=m.position"
       />
     </GMapCluster>
-  </GMapMap>
+  </GMapMap> -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -250,6 +250,7 @@
 import { Modal }  from "bootstrap"
 import AOS from "aos"
 import "aos/dist/aos.css"
+import axios from 'axios'
 
 const url = import.meta.env.VITE_APP_PATH
 
@@ -258,15 +259,14 @@ export default({
   data(){
     return{
       schedule:'',
-      center: {lat: 51.093048, lng: 6.842120},
-      markers: [
-        {
-          position: {
-            lat: 51.093048, lng: 6.842120
-          },
-        }
-        , // Along list of clusters
-      ]
+      // center: {lat: 51.093048, lng: 6.842120},
+      // markers: [
+      //   {
+      //     position: {
+      //       lat: 51.093048, lng: 6.842120
+      //     },
+      //   },
+      // ]
     }
   },
   methods:{
