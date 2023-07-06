@@ -250,9 +250,8 @@
 import { Modal }  from "bootstrap"
 import AOS from "aos"
 import "aos/dist/aos.css"
-import axios from 'axios'
 
-const url = import.meta.env.VITE_APP_PATH
+const { VITE_APP_PATH } = import.meta.env
 
 export default({
   name:'App',
@@ -276,13 +275,12 @@ export default({
     myModal.show();
     },},
   mounted() {
-
-    this.$http.get(url)
+    this.$http.get(`${VITE_APP_PATH}`)
     .then((res) => {
       this.schedule = res.data.schedule
     })
     .catch(( err) => {
-      consoel.log(err)
+      console.log(err)
     });
     AOS.init({
       delay:2000,

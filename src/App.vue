@@ -55,7 +55,6 @@
 
 <script>
 import { RouterLink, RouterView } from 'vue-router'
-const { VITE_APP_PATH } = import.meta.env
 
 export default {
   data () {
@@ -68,11 +67,6 @@ export default {
     setTimeout(() => {
       this.isLoading = false
     }, 1000)
-
-    this.$http.get(`${VITE_APP_PATH}`)
-      .then((res) => {
-        // console.log(res)
-      })
   },
   components: {
     RouterLink,
