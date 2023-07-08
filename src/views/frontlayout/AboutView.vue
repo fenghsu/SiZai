@@ -11,12 +11,12 @@
           </ul>
         </div>
       </div>
-      <div class="col-sm-7 border-start" >
-        <div class="accordionSec offset-md-1" v-for="item in faq" v-bind:key="item.title">
-          <div class="accordionTitle pt-3 text-center fs-5 text-primary">{{ item.title }}</div>
+      <div class="col-sm-7 border-start">
+        <div class="accordionSec offset-md-2" ref="height" v-for="item in faq" v-bind:key="item.title">
+          <div class="accordionTitle pt-3 text-center fs-5 text-primary" >{{ item.title }}</div>
           <div class="accordion accordion-flush" id="accordionFlushExample">
             <div class="accordion-item">
-              <h2 class="accordion-header">
+              <h2 class="accordion-header" >
                 <button
                   class="accordion-button collapsed"
                   type="button"
@@ -24,7 +24,7 @@
                   data-bs-target="#flush-collapseOne"
                   aria-expanded="false"
                   aria-controls="flush-collapseOne"
-                >
+                >                  
                   <div class="questionIcon">Q</div>
                   {{ item.subTitle[0] }}
                 </button>
@@ -34,7 +34,7 @@
                 class="accordion-collapse collapse"
                 data-bs-parent="#accordionFlushExample"
               >
-                <div class="accordion-body">
+                <div class="accordion-body row" v-insert-linebreak>
                   <div class="answerIcon">A</div>
                   {{ item.content[0] }}
                 </div>
@@ -92,9 +92,12 @@
             </div>
           </div>
         </div>
+        <!-- <div class="test" ref="infoBox">123</div> -->
         </div>
+        
       </div>
     </div>
+
 </template>
 
 <style>
@@ -134,35 +137,48 @@ li {
 </style>
 
 <script>
+
 const { VITE_APP_PATH } = import.meta.env
+
+const insertLinebreak = {
+  mounted: (el) => {
+     insertLinebreak.updated(el);
+  },
+  updated: (el) => {
+    el.innerHTML = el.innerHTML.replace(/\n/g, '<br/>')
+  },
+}
 
 export default {
   data() {
     return {
-      width: 0,
-      faq: ''
+      faq: '',
     }
+  },
+  directives: {
+    insertLinebreak,
   },
   methods: {
-    scrollTo() {
-      window.scrollTo({
-        top: this.width,
-        behavior: 'smooth'
-      })
+    scrollTo(){
+      const num = this.$refs.height.offsetTop
+       console.log(num)
     }
+    
   },
   mounted() {
-    //this.width=this.$refs.infoBox.offsetTop;
-    this.$http
-      .get(`${VITE_APP_PATH}`)
+    console.log(this)
+    this.$http.get(`${VITE_APP_PATH}`)
       .then((res) => {
-        //console.log(res.data.faq)
-        this.faq = res.data.faq
-        console.log(res.data.faq[0].subTitle[0])
+        this.faq = res.data.faq;
+
+        this.$nextTick(()=>{
+          const height = this.$refs.height[0].offsetTop
+          console.log(height)
+        })
       })
       .catch((err) => {
         console.log(err)
-      })
+    });
   }
 }
 </script>
