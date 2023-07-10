@@ -2,17 +2,17 @@
   <div class="wrapper my-5">
     <div class="row">
       <div class="col-sm-3">
-        <div class="questionGroup p-3 text-center lh-lg fs-5">
+        <div class="questionGroup p-3 text-center lh-lg fs-5">  
           <ul>
-            <li @click="scrollTo">預定流程</li>
-            <li>料理與保存</li>
-            <li>冷凍商品</li>
-            <li>彌月禮盒</li>
+            <li class="btnItem" id="0" @click="scrollTo">預定流程</li>
+            <li class="btnItem" id="1" @click="scrollTo">料理與保存</li>
+            <li class="btnItem" id="2" @click="scrollTo">冷凍商品</li>
+            <li class="btnItem" id="3" @click="scrollTo">彌月禮盒</li>
           </ul>
         </div>
       </div>
       <div class="col-sm-7 border-start">
-        <div class="accordionSec offset-md-2" ref="height" v-for="item in faq" v-bind:key="item.title">
+        <div class="accordionSec offset-md-2" ref="height"  v-for="item in faq" v-bind:key="item.title">
           <div class="accordionTitle pt-3 text-center fs-5 text-primary" >{{ item.title }}</div>
           <div class="accordion accordion-flush" id="accordionFlushExample">
             <div class="accordion-item">
@@ -153,15 +153,19 @@ export default {
   data() {
     return {
       faq: '',
+      getHeight:''
     }
   },
   directives: {
     insertLinebreak,
   },
   methods: {
-    scrollTo(){
-      const num = this.$refs.height.offsetTop
-       console.log(num)
+    scrollTo(itemNum){
+      const i = itemNum.target.id 
+      window.scrollTo({     
+        top: this.$refs.height[i].offsetTop,
+        behavior:"smooth"
+      })
     }
     
   },
@@ -170,10 +174,8 @@ export default {
     this.$http.get(`${VITE_APP_PATH}`)
       .then((res) => {
         this.faq = res.data.faq;
-
         this.$nextTick(()=>{
-          const height = this.$refs.height[0].offsetTop
-          console.log(height)
+          scrollTo()
         })
       })
       .catch((err) => {
