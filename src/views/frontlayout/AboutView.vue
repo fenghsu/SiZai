@@ -12,8 +12,8 @@
         </div>
       </div>
       <div class="col-sm-7 border-start">
-        <div class="accordionSec offset-md-2" ref="height"  v-for="item in faq" v-bind:key="item.title">
-          <div class="accordionTitle pt-3 text-center fs-5 text-primary" >{{ item.title }}</div>
+        <div class="accordionSec offset-md-2" ref="height"  v-for="(item, index) in faq" v-bind:key="item.title">
+          <div class="accordionTitle pt-3 text-center fs-5" >{{ item.title }}{{index}}</div>
           <div class="accordion accordion-flush" id="accordionFlushExample">
             <div class="accordion-item">
               <h2 class="accordion-header" >
@@ -21,16 +21,16 @@
                   class="accordion-button collapsed"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapseOne"
+                  :data-bs-target="`#flush-collapseOne-${index}`"
                   aria-expanded="false"
-                  aria-controls="flush-collapseOne"
+                  :aria-controls="`flush-collapseOne-${index}`"
                 >                  
                   <div class="questionIcon">Q</div>
                   {{ item.subTitle[0] }}
                 </button>
               </h2>
               <div
-                id="flush-collapseOne"
+                :id="`flush-collapseOne-${index}`"
                 class="accordion-collapse collapse"
                 data-bs-parent="#accordionFlushExample"
               >
@@ -46,16 +46,16 @@
                   class="accordion-button collapsed"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapseTwo"
+                  :data-bs-target="`#flush-collapseTwo-${index}`"
                   aria-expanded="false"
-                  aria-controls="flush-collapseTwo"
+                  :aria-controls="`flush-collapseTwo-${index}`"
                 >
                   <div class="questionIcon">Q</div>
                   {{ item.subTitle[1] }}
                 </button>
               </h2>
               <div
-                id="flush-collapseTwo"
+                :id="`flush-collapseTwo-${index}`"
                 class="accordion-collapse collapse"
                 data-bs-parent="#accordionFlushExample"
               >
@@ -65,22 +65,22 @@
                 </div>
               </div>
             </div>
-            <div class="accordion-item">
+            <div class="accordion-item" v-if=" item.subTitle[2]  !== undefined ">
               <h2 class="accordion-header">
                 <button
                   class="accordion-button collapsed"
                   type="button"
                   data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapseThree"
+                  :data-bs-target="`#flush-collapseThree-${index}`"
                   aria-expanded="false"
-                  aria-controls="flush-collapseThree"
+                  :aria-controls="`flush-collapseThree-${index}`"
                 >
                   <div class="questionIcon">Q</div>
                   {{ item.subTitle[2] }}
                 </button>
               </h2>
               <div
-                id="flush-collapseThree"
+                :id="`flush-collapseThree-${index}`"
                 class="accordion-collapse collapse"
                 data-bs-parent="#accordionFlushExample"
               >
@@ -92,9 +92,7 @@
             </div>
           </div>
         </div>
-        <!-- <div class="test" ref="infoBox">123</div> -->
         </div>
-        
       </div>
     </div>
 
@@ -153,7 +151,7 @@ export default {
   data() {
     return {
       faq: '',
-      getHeight:''
+      isFull: true
     }
   },
   directives: {
@@ -167,15 +165,16 @@ export default {
         behavior:"smooth"
       })
     }
-    
   },
   mounted() {
     console.log(this)
     this.$http.get(`${VITE_APP_PATH}`)
       .then((res) => {
         this.faq = res.data.faq;
+        console.log(res.data.faq[1].subTitle )
+        
         this.$nextTick(()=>{
-          scrollTo()
+          scrollTo()          
         })
       })
       .catch((err) => {
