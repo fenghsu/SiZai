@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 import axios from 'axios'
 import VueAxios from 'vue-axios';
-//import  VueGoogleMaps from '@fawmi/vue-google-maps'
+import  VueGoogleMaps from '@fawmi/vue-google-maps'
 
 import App from './App.vue'
 import router from './router'
@@ -18,10 +18,11 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(VueAxios, axios)
-// app.use(VueGoogleMaps, {
-//     load: {
-//         key: 'AIzaSyCNcTgQjki9BtrO6Elvji4sD9aXnM_v7A4',
-//     },
-// })
+app.use(VueGoogleMaps, {
+    load: {
+        key: 'AIzaSyCNcTgQjki9BtrO6Elvji4sD9aXnM_v7A4',
+    },
+    autobindAllEvents: true,
+})
 app.component('VueLoading', Loading)
 app.mount('#app')

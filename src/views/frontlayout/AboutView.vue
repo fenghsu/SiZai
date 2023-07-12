@@ -13,7 +13,7 @@
       </div>
       <div class="col-sm-7 border-start">
         <div class="accordionSec offset-md-2" ref="height"  v-for="(item, index) in faq" v-bind:key="item.title">
-          <div class="accordionTitle pt-3 text-center fs-5" >{{ item.title }}{{index}}</div>
+          <div class="accordionTitle pt-3 text-center fs-5" >{{ item.title }}</div>
           <div class="accordion accordion-flush" id="accordionFlushExample">
             <div class="accordion-item">
               <h2 class="accordion-header" >
@@ -59,7 +59,7 @@
                 class="accordion-collapse collapse"
                 data-bs-parent="#accordionFlushExample"
               >
-                <div class="accordion-body">
+                <div class="accordion-body row" v-insert-linebreak>
                   <div class="answerIcon">A</div>
                   {{ item.content[1] }}
                 </div>
@@ -84,7 +84,7 @@
                 class="accordion-collapse collapse"
                 data-bs-parent="#accordionFlushExample"
               >
-                <div class="accordion-body">
+                <div class="accordion-body row" v-insert-linebreak>
                   <div class="answerIcon">A</div>
                   {{ item.content[2] }}
                 </div>

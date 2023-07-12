@@ -115,23 +115,13 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-<!-- <GMapMap
-      :center="center"
+      <GMapMap
+      :center="{lat: 51.093048, lng: 6.842120}"
       :zoom="7"
       map-type-id="terrain"
       style="width: 500px; height: 300px"
-  >
-    <GMapCluster>
-      <GMapMarker
-          :key="index"
-          v-for="(m, index) in markers"
-          :position="m.position"
-          :clickable="true"
-          :draggable="true"
-          @click="center=m.position"
-      />
-    </GMapCluster>
-  </GMapMap> -->
+      >
+      </GMapMap>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -254,18 +244,10 @@ import "aos/dist/aos.css"
 const { VITE_APP_PATH } = import.meta.env
 
 export default({
-  name:'App',
   data(){
     return{
       schedule:'',
-      // center: {lat: 51.093048, lng: 6.842120},
-      // markers: [
-      //   {
-      //     position: {
-      //       lat: 51.093048, lng: 6.842120
-      //     },
-      //   },
-      // ]
+      center: {lat: 51.093048, lng: 6.842120},
     }
   },
   methods:{
