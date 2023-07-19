@@ -116,16 +116,26 @@
       </div>
       <div class="modal-body">
       <GMapMap
-      :center="{lat: 51.093048, lng: 6.842120}"
+      :center="center"
+      :options="options"
       :zoom="7"
       map-type-id="terrain"
-      style="width: 500px; height: 300px"
-      >
+      style="width: 100%; height: 300px"
+      >  
+    <GMapMarker
+        :key="index"
+        v-for="(marker, index) in markers"
+        :position="marker.position"
+    >    <GMapInfoWindow :opened="true">
+        <div>I am in info window 
+        </div>
+      </GMapInfoWindow>
+    </GMapMarker>
       </GMapMap>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+        <button type="button" class="btn btn-primary" @click='geocode'>Save changes</button>
       </div>
     </div>
   </div>
@@ -236,34 +246,76 @@
 </style>
 
 <script>
-//import { createApp } from "vue";
 import { Modal }  from "bootstrap"
 import AOS from "aos"
 import "aos/dist/aos.css"
 
 const { VITE_APP_PATH } = import.meta.env
 
+
 export default({
   data(){
     return{
       schedule:'',
-      center: {lat: 51.093048, lng: 6.842120},
+      center: { lat:51.093048, lng:6.842120},
+      options:{ zoomControl: true,
+                mapTypeControl: false,
+                scaleControl: true,
+                streetViewControl: false,
+                rotateControl: true,
+                fullscreenControl: false},
+      markers: [
+        {
+          position: {
+          lat:51.093048, lng:6.842120
+          },
+        }
+      ],
+      restaurant:{
+        address:'彰化縣鹿港鎮四維路10號',
+        lat:'',
+        lng:''
+      },
+      geocoder:null
     }
   },
   methods:{
     openModal(){
     const modal = document.querySelector('#modal') 
     const myModal = new Modal(modal)
-    myModal.show();
-    },},
+    myModal.show(); 
+    },
+    // initGeocoder() {
+    
+    // 
+    // },
+    geocode(){
+    const geocoder = new google.maps.Geocoder();  
+    //console.log(geocoder); 
+    const address = this.restaurant.address;
+    //console.log(address) //彰化縣鹿港鎮四維路10號
+    geocoder.geocode({address:address},function(results,status){
+      if(status === 'OK'){
+        console.log(address)
+      }else{
+        console.log(status)
+      }
+    })  
+    }
+  }, 
   mounted() {
     this.$http.get(`${VITE_APP_PATH}`)
     .then((res) => {
       this.schedule = res.data.schedule
+      this.$nextTick(()=>{
+      //this.initGeocoder()
+      this.geocode()
+    })
     })
     .catch(( err) => {
       console.log(err)
     });
+
     AOS.init({
       delay:2000,
       duration:1200

@@ -22,7 +22,6 @@ app.use(VueGoogleMaps, {
     load: {
         key: 'AIzaSyCNcTgQjki9BtrO6Elvji4sD9aXnM_v7A4',
     },
-    autobindAllEvents: true,
 })
 app.component('VueLoading', Loading)
 app.mount('#app')
