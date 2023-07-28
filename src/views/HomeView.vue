@@ -97,7 +97,7 @@
           <div class="col-sm-2">
             <img v-bind:src="item.imgUrl" class="container-fluid" alt="" >
           </div>
-          <div class="col-sm-8">
+          <div class="col-sm-8" @click='geocode'>
             <p>地點：{{item.place}} / {{item.addr}}<br>
                 時間:{{item.time}}</p>
           </div>
@@ -135,7 +135,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
-        <button type="button" class="btn btn-primary" @click='geocode'>Save changes</button>
+        <button type="button" class="btn btn-primary" >Save changes</button>
       </div>
     </div>
   </div>
@@ -251,13 +251,16 @@ import AOS from "aos"
 import "aos/dist/aos.css"
 
 const { VITE_APP_PATH } = import.meta.env
+//const lngtemp = newlat;
+//const lattemp =  newlng
 
 
 export default({
   data(){
     return{
+      text:'123',
       schedule:'',
-      center: { lat:51.093048, lng:6.842120},
+      center: { lat:24.059, lng: 120.431},
       options:{ zoomControl: true,
                 mapTypeControl: false,
                 scaleControl: true,
@@ -267,17 +270,26 @@ export default({
       markers: [
         {
           position: {
-          lat:51.093048, lng:6.842120
+          lat:24.059, lng: 120.431
           },
         }
       ],
-      restaurant:{
-        address:'彰化縣鹿港鎮四維路10號',
-        lat:'',
-        lng:''
-      },
-      geocoder:null
+      geocoder: null,
     }
+  },
+    mounted() {
+    this.initGeocoder();  
+    this.$http.get(`${VITE_APP_PATH}`)
+    .then((res) => {
+      this.schedule = res.data.schedule     
+    })
+    .catch(( err) => {
+      console.log(err)
+    });   
+    AOS.init({
+      delay:2000,
+      duration:1200
+    });
   },
   methods:{
     openModal(){
@@ -285,42 +297,27 @@ export default({
     const myModal = new Modal(modal)
     myModal.show(); 
     },
-    // initGeocoder() {
-    
-    // 
-    // },
-    geocode(){
-    const geocoder = new google.maps.Geocoder();  
-    //console.log(geocoder); 
-    const address = this.restaurant.address;
-    //console.log(address) //彰化縣鹿港鎮四維路10號
+    initGeocoder() {
+    //const geocoder = new google.maps.Geocoder();
+    },
+    geocode(){     
+    console.log(this.text)//123
+    const geocoder = new google.maps.Geocoder() 
+    const address = this.schedule[1].addr;
     geocoder.geocode({address:address},function(results,status){
       if(status === 'OK'){
-        console.log(address)
+        //console.log(this.text) //can not read of undefined
+        //取經緯座標
+        const newlat = results[0].geometry.location.lat();
+        const newlng = results[0].geometry.location.lng();
       }else{
         console.log(status)
       }
     })  
+    
     }
   }, 
-  mounted() {
-    this.$http.get(`${VITE_APP_PATH}`)
-    .then((res) => {
-      this.schedule = res.data.schedule
-      this.$nextTick(()=>{
-      //this.initGeocoder()
-      this.geocode()
-    })
-    })
-    .catch(( err) => {
-      console.log(err)
-    });
 
-    AOS.init({
-      delay:2000,
-      duration:1200
-    });
-  },
   
 }); 
 </script>

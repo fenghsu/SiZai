@@ -171,8 +171,6 @@ export default {
     this.$http.get(`${VITE_APP_PATH}`)
       .then((res) => {
         this.faq = res.data.faq;
-        console.log(res.data.faq[1].subTitle )
-        
         this.$nextTick(()=>{
           scrollTo()          
         })
