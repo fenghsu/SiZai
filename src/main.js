@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 import axios from 'axios'
 import VueAxios from 'vue-axios';
-import  VueGoogleMaps from '@fawmi/vue-google-maps'
+import VueGoogleMaps from '@fawmi/vue-google-maps'
 
 import App from './App.vue'
 import router from './router'

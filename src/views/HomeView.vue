@@ -97,10 +97,10 @@
           <div class="col-sm-2">
             <img v-bind:src="item.imgUrl" class="container-fluid" alt="" >
           </div>
-          <div class="col-sm-8" @click='geocode'>
+          <div class="col-sm-8" @click="geocode">
             <p>地點：{{item.place}} / {{item.addr}}<br>
                 時間:{{item.time}}</p>
-          </div>
+          </div>         
         </div>
       </div>
       </div>
@@ -114,24 +114,9 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-      <GMapMap
-      :center="center"
-      :options="options"
-      :zoom="7"
-      map-type-id="terrain"
-      style="width: 100%; height: 300px"
-      >  
-    <GMapMarker
-        :key="index"
-        v-for="(marker, index) in markers"
-        :position="marker.position"
-    >    <GMapInfoWindow :opened="true">
-        <div>I am in info window 
-        </div>
-      </GMapInfoWindow>
-    </GMapMarker>
-      </GMapMap>
+      <div class="modal-body" :center="{lat:-34.397, lng: 150.644}">
+         
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
@@ -243,53 +228,42 @@
   border-bottom: 0.8px solid #424141;
   text-align: center;
 }
+.google-map {
+  width: 100%;
+  height: 400px;
+}
 </style>
 
 <script>
 import { Modal }  from "bootstrap"
 import AOS from "aos"
 import "aos/dist/aos.css"
+//import GMap from '../components/map.vue'
 
 const { VITE_APP_PATH } = import.meta.env
-//const lngtemp = newlat;
-//const lattemp =  newlng
-
 
 export default({
   data(){
     return{
-      text:'123',
       schedule:'',
-      center: { lat:24.059, lng: 120.431},
-      options:{ zoomControl: true,
-                mapTypeControl: false,
-                scaleControl: true,
-                streetViewControl: false,
-                rotateControl: true,
-                fullscreenControl: false},
-      markers: [
-        {
-          position: {
-          lat:24.059, lng: 120.431
-          },
-        }
-      ],
-      geocoder: null,
+      lat: -34.397 ,
+      lng: 150.644,
+      geocoder: null
     }
   },
     mounted() {
-    this.initGeocoder();  
     this.$http.get(`${VITE_APP_PATH}`)
     .then((res) => {
-      this.schedule = res.data.schedule     
+      this.schedule = res.data.schedule   
     })
-    .catch(( err) => {
+    .catch((err) => {
       console.log(err)
     });   
     AOS.init({
       delay:2000,
       duration:1200
     });
+    this.initGeodcoder();
   },
   methods:{
     openModal(){
@@ -297,24 +271,23 @@ export default({
     const myModal = new Modal(modal)
     myModal.show(); 
     },
-    initGeocoder() {
-    //const geocoder = new google.maps.Geocoder();
+    initGeodcoder(){
+     this.geocoder = new google.maps.Geocoder();  
     },
-    geocode(){     
-    console.log(this.text)//123
-    const geocoder = new google.maps.Geocoder() 
-    const address = this.schedule[1].addr;
-    geocoder.geocode({address:address},function(results,status){
+    geocode(){
+      const address = this.schedule[2].addr;
+      console.log(address)
+      this.geocoder.geocode({address: address },
+      (results,status)=>{
       if(status === 'OK'){
-        //console.log(this.text) //can not read of undefined
         //取經緯座標
-        const newlat = results[0].geometry.location.lat();
-        const newlng = results[0].geometry.location.lng();
+        console.log(results[0].geometry.location)
+        // this.newlat = results[0].geometry.location.lat();
+        // this.newlng = results[0].geometry.location.lng();
       }else{
         console.log(status)
       }
-    })  
-    
+      })
     }
   }, 
 
