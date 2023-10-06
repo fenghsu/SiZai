@@ -17,10 +17,10 @@
         <div class="navbar-right col-sm-6 py-2 fs-5 d-flex justify-content-between">
         <p class="mb-0">關於阿祿</p>
         <RouterLink to="/product">商品介紹</RouterLink>
-        <RouterLink to="/about">常見問題</RouterLink>
+        <RouterLink to="/question">常見問題</RouterLink>
         <div>
-        <RouterLink to="/cart"><i class="bi bi-cart-fill"></i></RouterLink>
-        <RouterLink to="/admin"><i class="bi bi-person-circle"></i></RouterLink>
+        <cartButton class="bi"></cartButton>
+        <!-- <RouterLink to="/admin"><i class="bi bi-person-circle"></i></RouterLink> -->
         </div>
         </div>
         </div>
@@ -54,7 +54,9 @@
 </template>
 
 <script>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router';
+import cartButton from "./views/frontlayout/CartButton.vue"
+
 
 export default {
   data () {
@@ -70,7 +72,8 @@ export default {
   },
   components: {
     RouterLink,
-    RouterView
+    RouterView,
+    cartButton
   }
 }
 </script>
